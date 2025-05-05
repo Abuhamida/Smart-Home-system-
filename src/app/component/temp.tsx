@@ -9,8 +9,11 @@ export default function RealtimeTemperatureListener() {
 
   const formatDateToEgyptTime = (dateString: string) => {
     const date = new Date(dateString);
-    date.setHours(date.getHours() + 3);
-    return date.toLocaleString("en-EG", {
+  
+    // Convert to UTC first, then adjust for Egypt time (UTC+3)
+    const egyptTime = new Date(date.getTime()); // Add 3 hours to UTC
+  
+    return egyptTime.toLocaleString("en-EG", {
       weekday: "short",
       year: "numeric",
       month: "short",
@@ -20,6 +23,7 @@ export default function RealtimeTemperatureListener() {
       second: "2-digit",
     });
   };
+  
 
   useEffect(() => {
     const fetchTemperatureLogs = async () => {
