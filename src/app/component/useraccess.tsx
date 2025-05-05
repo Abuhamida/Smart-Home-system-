@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -9,11 +9,8 @@ export default function RealtimeRFIDListener() {
 
   const formatDateToEgyptTime = (dateString: string) => {
     const date = new Date(dateString);
-
-    // Convert to UTC first, then adjust for Egypt time (UTC+3)
-    const egyptTime = new Date(date.getTime()); // Add 3 hours to UTC
-
-    return egyptTime.toLocaleString("en-EG", {
+    date.setHours(date.getHours() + 3); // Adjust for Egypt time (UTC+3)
+    return date.toLocaleString("en-EG", {
       weekday: "short",
       year: "numeric",
       month: "short",
@@ -23,6 +20,7 @@ export default function RealtimeRFIDListener() {
       second: "2-digit",
     });
   };
+
   useEffect(() => {
     const fetchUsers = async () => {
       const { data, error } = await supabase.from("rfid_users").select("*");
